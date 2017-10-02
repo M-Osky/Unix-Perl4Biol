@@ -1,0 +1,826 @@
+# UNIX COMMANDS AND EXAMPLES by M.Óscar
+
+From
+Unix and Perl Primer for Biologists
+Keith Bradnam & Ian Korf
+Version 3.1.2 — October 2016
+http://korflab.ucdavis.edu/Unix_and_Perl/current.html
+
+	pwd	-> Print Working Directory
+	ls	-> Lists the folders and other items in the directory. We cand add a route at its right which any directory
+			Options: -
+		#  -l	'$ ls -l' Will list a longer, detailed list
+		#  -R	'$ ls -R' Will list all the files in all the directories and subdirectories
+		#  -t	'$ ls -t' Will list the files and directories sorted by time (new -> old)
+		#  -h	'$ ls -h' Will show the size in other units (MB or GB)
+		#  -d	'$ ls -d' Will show only de directories
+		#  -S	'$ ls -S' Sorted  by file size
+		#  -X	'$ ls -X' Sorted by file extension
+		#  -r	'$ ls -r' Will reverse the sorting order (z-> a; old -> new; etc.)
+		#  -p	'$ ls -p' Will mark with an "/" the directories
+		#  -a	'$ ls -a' Will also show hidden files (those that start with a dot -> .hiddenfile )
+		We can write various options together -> 'ls -lh'
+	cd	-> Change Directory. If we only write "cd" it will send us to the next upper directory
+			Operators:
+		Add a /route or a directory (no backlash needed if it is in the same working directory)
+		..	-> '$ cd ..' Will send you one level up; '$ ls ..' will list the parent directory
+		../..	-> '$ cd ../..' Will send you two levels up
+		../folder_name	-> '$cd ..' Will send you to a directory in the same parent directory then the derectory you are in now (.. -> up; folder_name -> down)
+		/		'$cd /' Will send you to the root (top-most parent) directory
+		~		'$cd ~' Is equivalent to '$ cd ' and will send you home
+		If we are in Folder1 (Main/Folder1) and we want to go to Folder2, we can use the absolute path '$ cd Main/Folder2' or the relative path '$ cd ../Folder2'
+---
+
+# TASK: cd and ls
+
+	
+Mosky@Zumbador ~
+$ pwd
+/home/Mosky
+
+Mosky@Zumbador ~
+$ ls
+test  USB
+
+Mosky@Zumbador ~
+$ cd USB/Unix_and_Perl_course
+
+Mosky@Zumbador ~/USB/Unix_and_Perl_course
+$ ls
+Applications  Data           testUnixandPerl.pl   UnixCommands.txt
+Code          Documentation  testUnixandPerl.txt
+
+Mosky@Zumbador ~/USB/Unix_and_Perl_course
+$ ls -l
+total 14
+drwxr-xr-x+ 1 Mosky None   0  5 jul  13:12 Applications
+drwxr-xr-x+ 1 Mosky None   0 14 jul   2009 Code
+drwxr-xr-x+ 1 Mosky None   0  5 jul  13:12 Data
+drwxr-xr-x+ 1 Mosky None   0  5 jul  13:12 Documentation
+-rwxr-xr-x  1 Mosky None 105  5 jul  12:43 testUnixandPerl.pl
+-rwxr-xr-x  1 Mosky None  96  5 jul  12:43 testUnixandPerl.txt
+-rwxr-xr-x  1 Mosky None 616  5 jul  13:49 UnixCommands.txt
+
+
+# It shows the propierties and rights, owner, bytes, modification time and name
+# The "d" in the first possition indicates that it's a directory
+
+
+---
+---
+
+
+	man		Shows the information of any command -> man man
+	mkdir	Creates a new directory -> mkdir Folder1
+		mkdir -p Folder1/Folder2 -> If we want to create a folder inside a parent directory
+	rmdir	Safe way to remove directories (only removes empty folders)
+
+
+# TASK: create and erase
+
+Mosky@Zumbador ~/USB/Unix_and_Perl_course
+$ mkdir to_erase
+
+Mosky@Zumbador ~/USB/Unix_and_Perl_course
+$ ls -p
+Applications/  Data/           testUnixandPerl.pl   to_erase/
+Code/          Documentation/  testUnixandPerl.txt  UnixCommands.txt
+
+Mosky@Zumbador ~/USB/Unix_and_Perl_course
+$ rmdir to_erase
+
+Mosky@Zumbador ~/USB/Unix_and_Perl_course
+$ ls
+Applications  Data           testUnixandPerl.pl   UnixCommands.txt
+Code          Documentation  testUnixandPerl.txt
+
+
+---
+---
+
+	TAB KEY: | --> | Use it to autocomplete commands or directories or filenames. Double press it to see the options available
+	UP : To acces the recently typed commands
+
+	touch		create a new file -> '$touch namefile.txt'
+	mv			moves a file to another directory -> '$ mv namefile.txt Directoryname/'
+		We can use mv to rename files '$mv Directory1/filename Directory2/newname' <- If Directory1 = Directory2 the file will not move
+	  *  -> We can use the "*" as a wild-card that substitutes any number of characters -> s*x = sax, six and sioux
+	  ?  -> We can use the "?" as a substitute for any character, one for each possition -> s?x = sax and six
+
+
+#TASK: Create, move, rename
+
+Mosky@Zumbador ~/USB/Unix_and_Perl_course
+$ ls
+Applications  Data           testUnixandPerl.pl   UnixCommands.txt
+Code          Documentation  testUnixandPerl.txt
+
+Mosky@Zumbador ~/USB/Unix_and_Perl_course
+$ mkdir Temp
+
+Mosky@Zumbador ~/USB/Unix_and_Perl_course
+$ touch earth.txt
+
+Mosky@Zumbador ~/USB/Unix_and_Perl_course
+$ touch heaven.txt
+
+Mosky@Zumbador ~/USB/Unix_and_Perl_course
+$ ls
+Applications  Documentation  Temp                 UnixCommands.txt
+Code          earth.txt      testUnixandPerl.pl
+Data          heaven.txt     testUnixandPerl.txt
+
+Mosky@Zumbador ~/USB/Unix_and_Perl_course
+$ mv earth.txt Temp/
+
+Mosky@Zumbador ~/USB/Unix_and_Perl_course
+$ mv heaven.txt Temp/
+
+Mosky@Zumbador ~/USB/Unix_and_Perl_course
+$ ls Temp/
+earth.txt  heaven.txt
+
+Mosky@Zumbador ~/USB/Unix_and_Perl_course
+$ cd Temp
+
+Mosky@Zumbador ~/USB/Unix_and_Perl_course/Temp
+$ mv *.txt ..
+
+Mosky@Zumbador ~/USB/Unix_and_Perl_course/Temp
+$ mv ~/USB/Unix_and_Perl_course/*ea* ~/USB/Unix_and_Perl_course/Temp
+
+Mosky@Zumbador ~/USB/Unix_and_Perl_course/Temp
+$ touch fat fit feet
+
+Mosky@Zumbador ~/USB/Unix_and_Perl_course/Temp
+$ ls
+earth.txt  fat  feet  fit  heaven.txt
+
+Mosky@Zumbador ~/USB/Unix_and_Perl_course/Temp
+$ ls f*t
+fat  feet  fit
+
+Mosky@Zumbador ~/USB/Unix_and_Perl_course/Temp
+$ ls f?t
+fat  fit
+
+Mosky@Zumbador ~/USB/Unix_and_Perl_course/Temp
+$ ls
+earth.txt  fat  feet  fit  heaven.txt
+
+Mosky@Zumbador ~/USB/Unix_and_Perl_course/Temp
+$ mv fat ../lard #rename while moving
+
+Mosky@Zumbador ~/USB/Unix_and_Perl_course/Temp
+$ mv ~/USB/Unix_and_Perl_course/lard ~/USB/Unix_and_Perl_course/fat #rename
+
+Mosky@Zumbador ~/USB/Unix_and_Perl_course/Temp
+$ mv ~/USB/Unix_and_Perl_course/fat Temp/ #move
+
+---
+---
+
+
+	rm		This is the potentially evil comand that could erase every file, not only empty directories, without confirmation or recicle bin.
+	  -i	It's recommended to use it with the -i option, so it asks for confirmation (answer y / n)
+	  -r	To remove also directories
+	  WARNING: Careful when removing files while using "*" without confirmation. It could delete EVERYTHING
+
+# TASK: Remove
+
+Mosky@Zumbador ~/USB/Unix_and_Perl_course
+$ rm -i Temp/*.txt
+rm: voleu eliminar el fitxer ordinari buit 'Temp/heaven.txt'? y
+
+---
+
+	cp		We can copy files (like '$ mv' but without removing them from the original location) and we can copy them with a different name in the same location (duplicate)
+	  -R	Makes a copy of all directories and files at current, in current and in another place specified -> ' cd -R Current/ Backup/' Will copy everything from current to Current and Backup directories, if Backup doesn't exist it will create a new one.
+	  .	In most of the cases we don't need to specify the current directory (like for '$ ls ') but in other case like copying with cp we can use the dot to refer to the current directory
+	  WARNING: By default '$ cp ' overwrites without confirmation
+		
+---
+
+# TASK: Copy and remove
+
+Mosky@Zumbador ~/USB/Unix_and_Perl_course
+$ touch file1
+
+Mosky@Zumbador ~/USB/Unix_and_Perl_course
+$ cp file1 file2	#duplicate
+
+Mosky@Zumbador ~/USB/Unix_and_Perl_course
+$ mv file* Temp/
+
+Mosky@Zumbador ~/USB/Unix_and_Perl_course
+$ cp Temp/file* .	#Copy to current
+
+Mosky@Zumbador ~/USB/Unix_and_Perl_course
+$ rm -i file*
+rm: voleu eliminar el fitxer ordinari buit 'file1'? y
+rm: voleu eliminar el fitxer ordinari buit 'file2'? y
+
+Mosky@Zumbador ~/USB/Unix_and_Perl_course
+$ cp -R Temp Storage
+
+Mosky@Zumbador ~/USB/Unix_and_Perl_course
+$ ls Temp Storage
+Storage:
+file1  file2
+
+Temp:
+file1  file2
+
+Mosky@Zumbador ~/USB/Unix_and_Perl_course
+$ rm -i -r Temp
+rm: voleu descendir al directori 'Temp'? y
+rm: voleu eliminar el fitxer ordinari buit 'Temp/file1'? y
+rm: voleu eliminar el fitxer ordinari buit 'Temp/file2'? y
+rm: voleu eliminar el directori 'Temp'? y
+
+Mosky@Zumbador ~/USB/Unix_and_Perl_course
+$ rm -i -r Storage/
+rm: voleu descendir al directori 'Storage/'? y
+rm: voleu eliminar el fitxer ordinari buit 'Storage/file1'? y
+rm: voleu eliminar el fitxer ordinari buit 'Storage/file2'? y
+rm: voleu eliminar el directori 'Storage/'? y
+
+
+---
+
+
+	less		As the command '$ more ' the command '$ less filename' allows you to see the contents of a text file
+		h	Help with the view and commands
+		j	scroll down one line
+		k	scroll up one line (only with '$ less'; not with '$ more')
+		f	next page/window
+		b	previous page/window (only with '$ less')
+		/text	Search fordward
+		?text	Search backward
+		q	exit
+
+# It will be really useful to change the behaviour by default of some commands: like '$ ls -p' or '$ rm -i -r'
+	alias		newcommand='oldcommand -options' -> Assigns a command with options to a new (or the same) command
+				Aliases only exist in the current session
+
+Mosky@Zumbador ~/USB/Unix_and_Perl_course
+$ alias ls='ls -p'
+
+Mosky@Zumbador ~/USB/Unix_and_Perl_course
+$ ls
+Applications/  Data/           testUnixandPerl.pl   UnixCommands.txt
+Code/          Documentation/  testUnixandPerl.txt
+
+Mosky@Zumbador ~/USB/Unix_and_Perl_course
+$ alias rm='rm -i -r'
+
+---
+
+#For more permanent solutions we should create a configuration file
+Depending on the initialisation type and login session, either .profile, .bashrc, or .bash_profile will be automatically read every time you open a new terminal.
+Writting some instructions ther with alias and changing the home directory could be helpful
+	write the code into a txt, save it without the extension
+		nano		create a new file and write it
+		#Create the script
+		source		run the script
+		cat -v "WriteHereYourFileName"		shows you the inside of a file, including some possible format errors
+		dos2unix "WriteHereYourFileName"	It transforms a file format from Windows to Unix, hopefully resolving some format problems from Windows users
+
+
+Mosky@Zumbador ~
+$ nano profile
+
+Mosky@Zumbador ~
+$ cd USB/Unix_and_Perl_course/
+
+Mosky@Zumbador ~/USB/Unix_and_Perl_course
+$ nano profile
+
+Mosky@Zumbador ~/USB/Unix_and_Perl_course
+$ less profile
+
+#Output:
+
+#Useful command line short-cuts
+alias ls='ls -p'  
+alias rm='rm -i -r'
+
+Mosky@Zumbador ~/USB/Unix_and_Perl_course
+$ source profile
+
+Mosky@Zumbador ~/USB/Unix_and_Perl_course
+$ ls
+Applications/  Data/           profile  testUnixandPerl.pl   UnixCommands.txt
+Code/          Documentation/  Temp/    testUnixandPerl.txt
+
+
+---
+
+#Now we'll create a more useful configuration file
+	.		With dot, so it's invisible
+	home	At Home/ so it's automatically read on start
+	PATH	The PATH environment variable is used by Cygwin applications as a list of directories to search for executable files to run
+	
+# The info will be:
+
+HOME="/cygdrive/d/Dropbox/WORKING_NOW/BIOINFORMATICS/UNIXyPERL/HOME/USB/Unix_and_Perl_course"	# To use the our usually working directory as home/
+cd $HOME																						# to go there
+PATH=$PATH":$HOME/Code"																			# We add our directory with codes to the files to run list
+export PERL5LIB=$PERL5LIB:$HOME/Code															# add local code directory to Perl library path
+alias ls="ls -p"																				# better display of directories
+alias rm="rm -i -r"
+alias mv="mv -i"
+alias cp="cp -i"																				# to ensure we don't overwrite anything by mistake
+alias cls="clear;ls"																			# new command to keep a clean screen
+
+#In windows usually the .profile is not read for every bash, is the .bashrc
+#If the bash doesn't read the .profile on start try saving the info on the .bashrc instead
+
+
+
+##  SHELL SCRIPTS  ##
+
+# We will create a Unix script with this info
+		echo		Prints output on screen
+# We'll save the scrips in /Code because is specified as a "PATH" in the .profile so it will look at that directory
+		./			To force Unix to execute files that are in the current directory, but not in PATH we should use ./name 
+
+	# my first Unix shell script  
+	echo "Hello World"
+
+Mosky@Zumbador ~
+$ touch Code/hello.sh
+
+Mosky@Zumbador ~
+$ nano Code/hello.sh
+
+Mosky@Zumbador ~
+$ hello.sh
+Hello World
+
+Mosky@Zumbador ~
+$ mv Code/hello.sh Notas/
+
+Mosky@Zumbador ~
+$ cd Notas/
+
+Mosky@Zumbador ~/Notas
+$ hello.sh
+-bash: /cygdrive/d/Dropbox/WORKING_NOW/BIOINFORMATICS/UNIXyPERL/USB/Unix_and_Perl_course/Code/hello.sh: No such file or directory
+
+Mosky@Zumbador ~/Notas
+$ ./hello.sh
+Hello World
+
+--
+
+
+
+#Usually sripts need permission to run
+		chmod		To add permissions
+			u		Permission to you (the user), can also be to group or others
+			+x		Permission to execute the script, cccan also be to write or to read
+			777 "TheNameOfTheAppHere.exe" --> Equivalent to +x
+Mosky@Zumbador ~
+$ chmod u+x Code/hello.sh
+
+
+#example
+Mosky@Zumbador ~
+$ nano Code/change_file_extension
+
+	#!/bin/bash
+
+	for filename in *.$1  
+	do  
+		mv $filename ${filename%$1}$2  
+	done
+
+Mosky@Zumbador ~
+$ cd Data/Unix_test_files/Text/
+
+Mosky@Zumbador ~/Data/Unix_test_files/Text
+$ chmod u+x ~/Code/change_file_extension.sh
+
+Mosky@Zumbador ~/Data/Unix_test_files/Text
+$ ls
+data.txt  README.txt  todo.txt
+
+Mosky@Zumbador ~/Data/Unix_test_files/Text
+$ change_file_extension.sh txt text
+
+Mosky@Zumbador ~/Data/Unix_test_files/Text
+$ ls
+data.text  README.text  todo.text
+
+----
+
+#Working with the files
+			FASTA files: One line sequences preceded by a ">"
+			GFF files: Location of exons, genes, binding sites etc on a DNA sequence, commontly an entire chromosome
+			# GFF have 9 fields sepparated with tab '	', and even if they are empty we need to add a dot'.'
+			# 2nd and 3rd fields usually include info on the kind of sequence
+			# 4th specifies the possition where the features start (starting coordinate of genes or other sequences)
+---
+
+		grep		search text within a file -> grep "text-to_search" filename <- Only matches patterns on a per line basis.
+			-v		invert match: Only shows the lines that DO NOT match the search 
+			-i		ignore case
+			-c		will show how many lines match, NOT the lines, but the NUMBER of lines that match
+			*		search in all files
+		[Ctrl]+[C] => Interrup (luckily) any script running
+		[Ctrl]+[Insert] => Copy
+		[Shift]+[Insert] => Paste
+		head		Shows first 10 lines of a file
+		tail		Shows last 10 lines of a file
+		  -n		-n number => number of lines we want to see -> head -n 1 file.txt => see the first line
+		  |  		Pipeline: the pipe is imprlemented with "|" and it allows to connect different commands, programs or functions
+
+#Other useful commands
+		top		Real-time view of running system. Displays system summary information and s list of tasks currently being managed Linux
+		ps		Process Status: Displays current running processes
+		kill	Requests the termination of a process
+
+# Examples:
+
+Mosky@Zumbador ~/Data/Arabidopsis
+$ grep "ATGTGA" intron_IME_data.fasta			# Output: In the command promp will appear the lines containing ATGGTA; probably too many to handle
+
+Mosky@Zumbador ~/Data/Arabidopsis
+$ less intron_IME_data.fasta					# Output: Will show in the viewer all the data in the file, "less" allows to navigate and search in the text (with "/text_to_search")
+
+Mosky@Zumbador ~/Data/Arabidopsis
+$ grep "ATGTGA" intron_IME_data.fasta | less	# Output: Will show in the viewer the lines containing "ATGGTA", "less" allows to navigate and search in the text
+
+Mosky@Zumbador ~/Data/Arabidopsis
+$ grep -i ACGTC * | head						# Show first 10 lines from any file that contain ACGTC in both upper and lower case
+At_proteins.fasta:VFDLGGREFWVDCDQGYVSTTYRSPRCNSAVCSRAGSIACGTCFSPPRPGCSNNTCGAFP
+At_proteins.fasta:GNFKESLTGYAKGMLSLYEAAHLGTTKDYILQEALSFTSSHLESLAACGTCPPHLSVHIQ
+At_proteins.fasta:MAVFRVLLASLLISLLVLDFVHADMVTSNDAPKIDCNSRCQERCSLSSRPNLCHRACGTC
+chr1.fasta:TGTCTACTGATTTGATGTTTTCCTAAACTGTTGATTCGTTTCAGGTCAACCAATCACGTCAACGAAATTCAGGATCTTA
+chr1.fasta:TATGCTGCAAGTACCAGTCAATTTTAGTATGGGAAACTATAAACATGTATAATCAACCAATGAACACGTCAATAACCTA
+chr1.fasta:TTGAACAGCTTAGGGTGAAAATTATGATCCGTAGAGACAGCATTTAAAAGTTCCTTACGTCCACGTAAAATAATATATC
+chr1.fasta:GGGATCACGAGTCTGTTGAGTTTTCCGACGTCGCTTGGTGTTACCACTTTGTCGAACATGTGTTCTTTCTCCGGAGGTG
+chr1.fasta:CTGCAAAGGCCTACCTGTTTGTCCCTGTTACTGACAATACGTCTATGGAACCCATAAAAGGGATCAACTGGGAATTGGT
+chr1.fasta:ACGTCGAAGGGGGTAAGATTGCAGCTAATCATTTGATGAAATGGATTGGGATTCACGTGGAGGATGATCCTGATGAAGT
+chr1.fasta:ACGGTGATAACGAATCTATCATCTATGATCCAATCATTAACGTCTCTGCTCTTGTAAAGGCTCAAGAGAGCACATTGAA
+
+---
+
+
+#REGULAR EXPRESSIONS:
+#Search patterns accorfing to diverse criteria
+#we can use them with 'grep'; 'less' (using "/" to search); etc.
+
+		  ^  	At the left of the expression indicates the expression should match at the start of the line
+		  $  	At the right of the expression indicates that the expression should math at the end of the line
+		  .  	Is a wild-card, each point equals for one ascii character
+		  *  	This wild-card finds sequences that match the precedent characters repeated a number of times (including 0), but not other sequences
+		  .* 	The Wild Card: This combo will search for any number of any ascii characters
+					AB*AC = ABABAC; ABAC; but NOT to ABTAC
+
+#Exaples:
+Mosky@Zumbador ~/Data/Arabidopsis
+$ grep AB*AC TEST.txt
+ABABABAC
+ABABACAC
+ABACACAC
+ABACTTTT
+TABABACT
+
+Mosky@Zumbador ~/Data/Arabidopsis
+$ grep AB.AC TEST.txt
+ABTABTAC
+TTABTACT
+TABABTAC
+
+Mosky@Zumbador ~/Data/Arabidopsis
+$ grep AB.*.AC TEST.txt
+ABABABAC
+ABABACAC
+ABACACAC
+ABTABTAC
+ABTTTTAC
+TTABTTAC
+TTABTACT
+TABABTAC
+TABABACT
+
+Mosky@Zumbador ~/Data/Arabidopsis
+$ grep ^AB.*.AC TEST.txt
+ABABABAC
+ABABACAC
+ABACACAC
+ABTABTAC
+ABTTTTAC
+
+---
+
+
+		tr		Transliterate: changes on range of characters for another one
+
+$ head -n 2 chr1.fasta | tr 'A-Z' 'a-z'					#We can use it to change from caps to lower-case
+
+		sed		changes the way a text is printed on screen -> 's/text_to_chage/new_text/g'
+			s/	-> The first 's' declares it's a substitution, this command works line by line, as '$ grep' does
+			/g	-> The last 'g' declares that it must substitute all matches, not only the first of each line
+Mosky@Zumbador ~/Data/Arabidopsis
+$ head -n 1 chr1.fasta
+>Chr1 dumped from ADB: Mar/14/08 12:28; last updated: 2007-12-20
+Mosky@Zumbador ~/Data/Arabidopsis
+
+$ head -n 1 chr1.fasta | sed 's/Chr1/Chromosome 1/'
+>Chromosome 1 dumped from ADB: Mar/14/08 12:28; last updated: 2007-12-20
+
+---
+
+		wc		Word Count: It's output gives the number of lines, words and bytes
+
+Mosky@Zumbador ~
+$ wc Data/Arabidopsis/At_genes.gff
+  531497  4783473 39322356 Data/Arabidopsis/At_genes.gff
+
+#The file has so many lines (>500 000) so we may want to work with a subset.
+		  >		To save the output to a file (usually the output we see in the screen)
+
+Mosky@Zumbador ~
+$ head -n 10000 Data/Arabidopsis/At_genes.gff > Data/Arabidopsis/At_genes_subset.gff
+
+Mosky@Zumbador ~/Data/Arabidopsis
+$ ls -l
+total 97737
+-rwxrwx---+ 1 Mosky None 39322356  9 jul   2009 At_genes.gff
+-rw-rw-r--+ 1 Mosky None   705370 10 jul  13:06 At_genes_subset.gff
+-rwxrwx---+ 1 Mosky None 17891640  2 oct   2012 At_proteins.fasta
+-rwxrwx---+ 1 Mosky None 30817851  7 maig  2008 chr1.fasta
+-rwxrwx---+ 1 Mosky None 11330760  2 oct   2012 intron_IME_data.fasta
+-rw-rw-r--+ 1 Mosky None       98  9 jul  00:32 test.txt
+
+		cut		takes a subset of a file
+		  -f number1, number2	-> Specifies which column/columns to print
+		sort		sorts the output (alphabeticccally by deffault)
+			-n	Will sort numerically
+			-k number	will sort based on the column number written
+		uniq		Only keeps lines from the output that are unique
+
+Mosky@Zumbador ~/Data/Arabidopsis
+$ cut -f 3 At_genes_subset.gff | sort | uniq		#To see all types of sequenes
+CDS
+chromosome
+exon
+five_prime_UTR
+gene
+miRNA
+mRNA
+ncRNA
+protein
+pseudogene
+pseudogenic_exon
+pseudogenic_transcript
+snoRNA
+three_prime_UTR
+transposable_element_gene
+tRNA
+
+Mosky@Zumbador ~/Data/Arabidopsis
+$ cut -f 3,4 At_genes_subset.gff | sort -n -k 2 | head	#To see which type of sequence appear first in the chromosome
+chromosome      1
+exon    3631
+five_prime_UTR  3631
+gene    3631
+mRNA    3631
+CDS     3760
+protein 3760
+CDS     3996
+exon    3996
+CDS     4486
+
+--
+		\n or \r		Some programming languajes (or even the same in different versions) use a different notation for "new line". In unix usually are \n or \r
+		  <		It an euivalent use to '$ > '; in this ase '$ <' is "read from file".
+# We can combine tr and > to change the "new line" notation to one we can read and save it
+
+Mosky@Zumbador ~/Data/Arabidopsis
+$ less ~/Data/Misc/excel_data.csv
+
+	sequence 1,acacagagag^Msequence 2,acacaggggaaa^Msequence 3,ttcacagaga^Msequence 4,cacaccaaacac^Msequence 5,tttatatttaatata
+	(END)
+
+Mosky@Zumbador ~/Data/Misc
+$ tr '\r' '\n' < excel_data.csv
+sequence 1,acacagagag
+sequence 2,acacaggggaaa
+sequence 3,ttcacagaga
+sequence 4,cacaccaaacac
+sequence 5,tttatatttaatata
+
+Mosky@Zumbador ~/Data/Misc
+$ tr '\r' '\n' < excel_data.csv > excel_data_new.csv
+
+---
+
+Mosky@Zumbador ~/Data/Arabidopsis
+$ head intron_IME_data.fasta
+>AT1G68260.1_i1_204_CDS
+GTATACACATCTCTCTACTTTCATATTTTGCATCTCTAACGAAATCGGATTCCGTCGTTG
+TGAAATTGAGTTTTCGGATTCAGTGTTGTCGAGATTCTATATCTGATTCAGTGATCTAAT
+GATTCTGATTGAAAATCTTCGCTATTGTACAG
+>AT1G68260.1_i2_457_CDS
+GTTAGTTTTCAATGTTGCTGCTTCTGATTGTTGAAAGTGTTCATACATTTGTGAATTTAG
+TTGATAAAATCTGAACTCTGCATGATCAAAGTTACTTCTTTACTTAGTTTGACAGGGACT
+TTTTTTGTGAATGTGGTTGAGTAGAATTTAGGGCTTTGGATTAAATGTGACAAGATTTTG
+CTAGTAAGTTTAGAGTCTTGCTAGTAATTCAGTTAGTTTGTGATGTTGCTGCTTCAGATT
+GTGTACTTTTCTATTGTTAAAGAGGAAGTTTCAGATCGTGTTCTTGACAGAATCTGGAAT
+
+
+----
+#differencces between '$ sed' and '$ tr'
+-> tr	works with ranges in a character by character process
+-> sed	works with words in strings and line per line
+
+Mosky@Zumbador ~/Data/Arabidopsis
+$ echo I am a good boy | sed 's/good/best/g'
+I am a best boy
+
+Mosky@Zumbador ~/Data/Arabidopsis
+$ echo I am a good boy | tr 'good' 'best'
+I am a bsst bsy
+
+-> tr is more useful to change all symbols in a document, as all () per []
+
+Mosky@Zumbador ~/Data/Arabidopsis
+$ tr '{}' '()' < test.txt > newtest.txt
+----
+
+
+# Each header of intron_IME_data.fasta file contains:
+>genename_intron-position-in-gene_distance-of-intron-from-transcription-star-site(TSS)_type-of-sequence-that-intron-is-located-in(CDS-or-UTR)
+--> we want to extract five sequences from this file that are: a) from first introns, b) in the 5’ UTR, and c) closest to the TSS.
+# -> Find the five introns which have the lowest values
+# First we need to put the sequences in the same line that their names, after sorting and selecting we'll separate them again
+
+$ tr '\n' '@'								change all line separators by "@" (all in one line)
+	sed 's/>/#>/g'							Substitute every ">" (beginning of each sequence) by #>
+		tr '#' '\n'							change the "#" by "\n" <- new line" (now there is again one line per sequence, but sequences and their names are
+												in the same line)
+			grep "i1_.*5UTR"				search and select lines whose names indicate that are from the first intron (i1_) in the 5' UTR (5UTR)
+				sort -nk 3 -t "_"			sort numerically based on column 3; columns are delimited by "_"
+					head -n 5				print first five lines
+						tr '@' '\n'			change "@" for "\n" <- new line (to separate back the names and the sequences in diferent lines)
+
+Mosky@Zumbador ~/Data/Arabidopsis
+$ tr '\n' '@' < intron_IME_data.fasta | sed 's/>/#>/g' | tr '#' '\n' | grep "i1_.*5UTR" | sort -nk 3 -t "_" | head -n 5 | tr '@' '\n'
+>AT4G39070.1_i1_7_5UTR
+GTGTGAAACCAAAACCAAAACAAGTCAATTTGGGGGCATTGAAAGCAAAGGAGAGAGTAG
+CTATCAAATCAAGAAAATGAGAGGAAGGAGTTAAAAAAGACAAAGGAAACCTAAGCTGCT
+TATCTATAAAGCCAACACATTATTCTTACCCTTTTGCCCACACTTATACCCCATCAACCT
+CTACATACACTCACCCACATGAGTGTCTCTACATAAACACTACTATATAGTACTGGTCCA
+AAGGTACAAGTTGAGGGAG
+
+>AT5G38430.1_i1_7_5UTR
+GCTTTTTGCCTCTTACGGTTCTCACTATATAAAGATGACAAAACCAATAGAAAAACAATT
+AAG
+
+>AT1G31820.1_i1_14_5UTR
+GTTTGTACTTCTTTACCTCTCGTAAATGTTTAGACTTTCGTATAAGGATCCAAGAATTTA
+TCTGATTGTTTTTTTTTCTTTGTTTCTTTGTGTTGATTCAG
+
+>AT3G12670.1_i1_18_5UTR
+GTAGAATTCGTAAATTTCTTCTGCTCACTTTATTGTTTCGACTCATACCCGATAATCTCT
+TCTATGTTTGGTAGAGATATCTTCTCAAAGTCTTATCTTTCCTTACCGTGTTCTGTGTTT
+TTTGATGATTTAG
+
+>AT1G26930.1_i1_19_5UTR
+GTATAATATGAGAGATAGACAAATGTAAAGAAAAACACAGAGAGAAAATTAGTTTAATTA
+ATCTCTCAAATATATACAAATATTAAAACTTCTTCTTCTTCAATTACAATTCTCATTCTT
+TTTTTCTTGTTCTTATATTGTAGTTGCAAGAAAGTTAAAAGATTTTGACTTTTCTTGTTT
+CAG
+
+
+
+-----
+
+	###################
+	#                 # 
+	#      PERL       #
+	#                 #
+	###################
+
+
+*************
+
+From here on, the course consist in writting and testing small scripts and runing them, so I will do so and in this file I'll just add the tips for those scripts. More general tips about Perl derived from those scripts have been added to learn-perl(dot)org.txt
+All scripts done in this course "Unix and Perl for Biologists" are located in home/Code
+
+*************
+
+# function print -> helloworld.pl <- To call a Perl script from Unix:	$	perl scriptname.pl
+
+#-> #!/usr/bin/perl <- Tells unix to use perl.exe (in the bin/ directory) to run the script
+#					If the Perl script has this line in the beginning we can call it directly without the "perl":	$	scalar.pl
+
+#->use warnings; <- Yes, we want warnings to tell us what is wrong
+
+#-> use strict; <- We want each command in a different line with the semicolon ";" and so, also, it will differenciate a global variable from a local variable.
+
+#	$	my $x = a; <- With "use strict" we need to declare the first time a variable name is used with the "my" as a local variable.
+#			See "strict.pl"
+
+
+******************************************
+
+Unix server:
+$ qsub "WriteHereYourFileName"
+## It submits your files to the job queue and put them to run
+
+$ qstat
+## To see all jobs in progress
+
+$ qstat -u "Write-Your-User-Name"
+## Write your user name (bo1xxx) to see the works in progress of one single user, I'm almost sure you just want to see your runs and no all the other runs in progress
+
+##The first colums shows a job-ID of six numbers for each one of your runs, and you can also see the name of the file/work in the third column, in the fifth one there is the state of the job.
+	> "r"
+	## Your work is running!
+	>> "qw"
+	## Your work is in the waiting queue, you should be patient
+	>> "t"
+	## You work is in transition, almost ready to start running
+	>> "Eqw"
+	## Error!! =·(
+
+$ qdel "ID-of-the-Job"
+## Write the ID number of the job and it will stop the current running for that job
+
+
+Default Files
+>> e475482.1
+	(or)
+>>e"ID-of-the-Job"."Number-of-the-Run"
+	"e" = Error file of the job.
+	"475482" = ID of the job (whatever it was in the table).
+	".1" that number after the dot, appears if you are running the same job more than once, it indicates which run is this one, if this run was the first (in that case) or the tenth (.10).
+If the file size is 0 Bytes you are lucky, the error file is in blank!
+
+>> o735727.1
+The same, but this is the default output file that appears, if you have specified another output file it should be in blank.
+
+$ exit
+## Type this and press Enter; do it twice to close the session and the window.
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+#Basic simple Perl scripts I did to practice:
+
+
+# pow.pl
+# stirling.pl
+# conditional.pl
+# nested_conditional.pl
+# elseif.pl
+
+#	Don't directly compare variables that include "floats" (decimals or floating points numbers) because their values can be not exactly the same, instead ask if their difference is greater than some small float number --> float.pl
+
+*******************************
+
+#		Project 0: POISSON -> Use the Poisson distribution to check if the found deph of coverage is random fluctuation, call: $	poissoncheck.pl number1(lambda) number2(k)
+
+*******************************
+
+#More basic scripts done:
+#strings.pl
+#matching.pl
+#transliterate.pl
+
+*******************************
+
+#		Project 1: DNA composition - > We need to write a program to read a sequence (DNA) and determine its length and composition. call: $	dnacompos.pl yourdnasequence
+
+*******************************
+
+list.pl
+undefined.pl
+array.pl
+stringarray.pl
+sorting.pl
+loop.pl
+
+*******************************
+Task P12.4: Use a loop to create a program that computes the factorial of a number. call: $		factorial.pl <number>
+
+*******************************
+sumint.pl
+loops.pl
+primes.pl
+
+*******************************
+
+#		Project 2: Descriptive statistics
+
+*******************************
+
+
+
