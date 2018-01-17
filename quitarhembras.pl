@@ -1,7 +1,8 @@
 #!/usr/bin/perl
 use strict; use warnings;
 #quitarhembras.pl
-
+#this is a very specific script to erase all the lines of a file that have a "1" in one specific column,
+# I used this to erase the females from a input file for Mark and RMark
 die "usage; to erase data belonging to females from a file, call: quitarhembras.pl file.inp <Mark input file>\n" unless @ARGV >= 1;
 
 open(my $in, "<@ARGV") or die "error openning @ARGV for reading: $!";
