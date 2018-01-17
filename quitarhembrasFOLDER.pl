@@ -1,8 +1,9 @@
 #!/usr/bin/perl
 use strict; use warnings;
-#quitarhembras.pl
+#quitarhembrasfolder.pl
 
-
+#this is a very specific script to erase in all files, all the lines of a file that have a "1" in one specific column,
+# I used this to erase the females from alls input files for Mark and RMark
 
 my $dirname = "D:/Dropbox/MOSKY/CURRO/BIOINFORMATICS/UNIXyPERL/USB/Unix_and_Perl_course/mark";
 
