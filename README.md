@@ -1,5 +1,5 @@
 # Unix-Perl4Biol
-Less basic Perl scripts, mostly just exercises, and few personal scripts
+Mostly just exercises from the named course, and few personal scripts
 
 Most of the scripts are done solving the exercises from "Unix and Perl Primer for Biologists - Keith Bradnam & Ian Korf".
 The exercises are explained briefly in UNIX/Exercices, but each exercice is in an independent script and the information on each file should be enough.
