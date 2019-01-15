@@ -9,14 +9,14 @@ use strict; use warnings;
 # Lines that start with a comma (","), comments (#text), and blank lines are skipped.
 
 # Input file:
-#	ID,			X,	Y
+#	ID,		X,	Y
 #	sample1,	4,	8
 #	sample1,	15,	16
 #	sample2,	23,	42
 #	sample2,	21,	18
 #
 # Output file:
-#	ID,			X1,	Y1,	X2,	Y2
+#	ID,		X1,	Y1,	X2,	Y2
 #	sample1,	4,	8,	15,	16
 #	sample2,	23,	42,	21,	18
 
